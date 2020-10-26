@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/passwdapp/box/config"
+	"github.com/passwdapp/box/http"
 )
 
 func main() {
@@ -13,4 +14,7 @@ func main() {
 
 	log.Println("Initializing passwd server")
 	config.InitConfig(*useDotenv)
+
+	log.Println("Initializing the HTTP server")
+	http.InitHTTP()
 }

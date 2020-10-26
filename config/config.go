@@ -70,6 +70,9 @@ func (c *Config) GetFromEnv() {
 	}
 }
 
+// Version is the box version
+const Version = "1.0"
+
 var config *Config
 
 // GetConfig returns the configuration data.
