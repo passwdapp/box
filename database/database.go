@@ -3,6 +3,7 @@ package database
 import (
 	"log"
 
+	"github.com/passwdapp/box/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -21,6 +22,8 @@ func Connect(path string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	db.AutoMigrate(&models.User{})
 
 	dbConnection = db
 }
