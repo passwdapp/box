@@ -8,3 +8,9 @@ type User struct {
 	Username string `json:"username" gorm:"uniqueIndex"`
 	Password string `json:"password" gorm:"uniqueIndex"`
 }
+
+// SignUpBody contains the body for the sign-up request
+type SignUpBody struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}

@@ -17,6 +17,14 @@ type Config struct {
 	DatabaseFile    string
 }
 
+// PasswordConfig stores the config for argon2
+type PasswordConfig struct {
+	Time    uint32
+	Memory  uint32
+	Threads uint8
+	KeyLen  uint32
+}
+
 // SetDefaults sets the config to default
 func (c *Config) SetDefaults() {
 	c.DatabaseFile = "data/db.sqlite"

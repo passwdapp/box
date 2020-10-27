@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/passwdapp/box/config"
+	"github.com/passwdapp/box/http/handlers"
 	"github.com/passwdapp/box/http/middleware"
 )
 
@@ -24,6 +25,11 @@ func InitHTTP() {
 	app.Use(recover.New())
 	app.Use(secretKeyMiddleware.Handler)
 	app.Use(logger.New())
+
+	v1Group := app.Group("/v1")
+	usersGroup := v1Group.Group("/users")
+
+	usersGroup.Post("/signup", handlers.SignUpHandler)
 
 	app.Listen(conf.ListenAddress)
 }
