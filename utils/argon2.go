@@ -13,7 +13,7 @@ import (
 
 // GeneratePassword is used to generate a new password hash for storing and
 // comparing at a later date.
-func GeneratePassword(c *config.PasswordConfig, password string) (string, error) {
+func GeneratePassword(password string) (string, error) {
 
 	// Generate a Salt
 	salt := make([]byte, 16)
@@ -21,14 +21,28 @@ func GeneratePassword(c *config.PasswordConfig, password string) (string, error)
 		return "", err
 	}
 
-	hash := argon2.IDKey([]byte(password), salt, c.Time, c.Memory, c.Threads, c.KeyLen)
+	hash := argon2.IDKey([]byte(password),
+		salt,
+		config.Argon2Config.Time,
+		config.Argon2Config.Memory,
+		config.Argon2Config.Threads,
+		config.Argon2Config.KeyLen,
+	)
 
 	// Base64 encode the salt and hashed password.
 	b64Salt := base64.RawStdEncoding.EncodeToString(salt)
 	b64Hash := base64.RawStdEncoding.EncodeToString(hash)
 
 	format := "$argon2id$v=%d$m=%d,t=%d,p=%d$%s$%s"
-	full := fmt.Sprintf(format, argon2.Version, c.Memory, c.Time, c.Threads, b64Salt, b64Hash)
+	full := fmt.Sprintf(format,
+		argon2.Version,
+		config.Argon2Config.Memory,
+		config.Argon2Config.Time,
+		config.Argon2Config.Threads,
+		b64Salt,
+		b64Hash,
+	)
+
 	return full, nil
 }
 

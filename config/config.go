@@ -25,6 +25,14 @@ type PasswordConfig struct {
 	KeyLen  uint32
 }
 
+// Argon2Config is the global argon2 config
+var Argon2Config = &PasswordConfig{
+	Time:    1,
+	Memory:  64 * 1024,
+	Threads: 4,
+	KeyLen:  32,
+}
+
 // SetDefaults sets the config to default
 func (c *Config) SetDefaults() {
 	c.DatabaseFile = "data/db.sqlite"
