@@ -17,6 +17,7 @@ func InitHTTP() {
 
 	app := fiber.New(fiber.Config{
 		ServerHeader: fmt.Sprintf("passwd_box/fiber/%s", config.Version),
+		Prefork:      false,
 	})
 
 	secretKeyMiddleware := middleware.SecretKeyMiddleware{}
