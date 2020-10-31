@@ -14,3 +14,9 @@ type SignUpBody struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+// SignInBody contains the body for the sign-up request
+type SignInBody struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
