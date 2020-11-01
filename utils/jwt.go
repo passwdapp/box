@@ -20,7 +20,7 @@ func GenerateLoginTokens(user models.User) (at, rt string, err error) {
 	jwtSecret := config.GetConfig().JWTSecret
 
 	claims := jwt.MapClaims{}
-	claims["exp"] = time.Now().Add(time.Hour).Unix()
+	claims["exp"] = time.Now().UTC().Add(time.Hour).Unix()
 	claims["username"] = user.Username
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
