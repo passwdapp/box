@@ -15,6 +15,7 @@ type Config struct {
 	MaxUsers        int64
 	UploadDirectory string
 	DatabaseFile    string
+	JWTSecret       string
 }
 
 // SetDefaults sets the config to default
@@ -48,12 +49,18 @@ func (c *Config) GetFromEnv() {
 	listenAddress, listenAddressPresent := os.LookupEnv("LISTEN_ADDRESS")
 	secretKey, secretKeyPresent := os.LookupEnv("SECRET_KEY")
 	maxUsers, maxUsersPresent := os.LookupEnv("MAX_USERS")
+	jwtSecret, jwtSecretPresent := os.LookupEnv("JWT_SECRET")
 
 	if !secretKeyPresent {
 		log.Fatalln("No SECRET_KEY present in the environment")
 	}
 
+	if !jwtSecretPresent {
+		log.Fatalln("No JWT_SECRET present in the environment")
+	}
+
 	c.SecretKey = secretKey
+	c.JWTSecret = jwtSecret
 
 	if listenAddressPresent {
 		c.ListenAddress = listenAddress
