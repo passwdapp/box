@@ -23,7 +23,7 @@ func Connect(path string) {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.User{}, &models.RefreshToken{})
 
 	dbConnection = db
 }

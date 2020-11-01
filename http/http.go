@@ -31,6 +31,7 @@ func InitHTTP() {
 	usersGroup := v1Group.Group("/users")
 
 	usersGroup.Post("/signup", handlers.SignUpHandler)
+	usersGroup.Post("/signin", handlers.SignInHandler)
 
 	app.Listen(conf.ListenAddress)
 }
