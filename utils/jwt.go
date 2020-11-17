@@ -17,14 +17,7 @@ func GenerateLoginTokens(user models.User) (at, rt string, err error) {
 		return "", "", errors.New("Empty username")
 	}
 
-	jwtSecret := config.GetConfig().JWTSecret
-
-	claims := jwt.MapClaims{}
-	claims["exp"] = time.Now().UTC().Add(time.Hour).Unix()
-	claims["username"] = user.Username
-
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
-	accessTokenSigned, err := accessToken.SignedString([]byte(jwtSecret))
+	accessTokenSigned, err := GenerateJWT(user)
 
 	if err != nil {
 		return "", "", err
@@ -46,4 +39,36 @@ func GenerateLoginTokens(user models.User) (at, rt string, err error) {
 	}
 
 	return accessTokenSigned, refreshToken, nil
+}
+
+// GenerateJWT generates a JWT for the given user with 1hr validity
+func GenerateJWT(user models.User) (string, error) {
+	jwtSecret := config.GetConfig().JWTSecret
+
+	claims := jwt.MapClaims{}
+	claims["exp"] = time.Now().UTC().Add(time.Hour).Unix()
+	claims["username"] = user.Username
+
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
+	accessTokenSigned, err := accessToken.SignedString([]byte(jwtSecret))
+
+	if err != nil {
+		return "", err
+	}
+
+	return accessTokenSigned, nil
+}
+
+// VerifyRefreshToken is used to verify if the refresh token is valid or not
+func VerifyRefreshToken(refreshToken string) (valid bool, username string, err error) {
+	var token models.RefreshToken
+	tx := database.GetDBConnection().Model(&models.RefreshToken{}).Where("token = ?", refreshToken).First(&token)
+
+	// TODO: verify the issue time
+
+	if tx.Error != nil || token.Username == "" {
+		return false, "", tx.Error
+	}
+
+	return true, token.Username, nil
 }

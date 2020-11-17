@@ -15,3 +15,8 @@ type SignInResponse struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
+
+// RefreshResponse is the response for a token refreh request
+type RefreshResponse struct {
+	AccessToken string `json:"access_token"`
+}

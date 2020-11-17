@@ -32,6 +32,7 @@ func InitHTTP() {
 
 	usersGroup.Post("/signup", handlers.SignUpHandler)
 	usersGroup.Post("/signin", handlers.SignInHandler)
+	usersGroup.Post("/refresh", handlers.RefreshHandler)
 
 	app.Listen(conf.ListenAddress)
 }

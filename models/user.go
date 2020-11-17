@@ -20,3 +20,8 @@ type SignInBody struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+// RefreshBody is the body for the token refresh request
+type RefreshBody struct {
+	RefreshToken string `json:"refresh_token"`
+}
