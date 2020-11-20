@@ -20,6 +20,7 @@ func InitHTTP() {
 	app := fiber.New(fiber.Config{
 		ServerHeader: fmt.Sprintf("passwd_box/fiber/%s", config.Version),
 		Prefork:      false,
+		BodyLimit:    256 * 1024, // 256 kb
 	})
 
 	secretKeyMiddleware := middleware.SecretKeyMiddleware{}
@@ -46,6 +47,7 @@ func InitHTTP() {
 	uploadsGroup := protectedGroup.Group("/uploads")
 	uploadsGroup.Get("/nonce", uploads.NonceHandler)
 	uploadsGroup.Post("/new", uploads.UploadHandler)
+	uploadsGroup.Get("/get", uploads.GetHandler)
 
 	app.Listen(conf.ListenAddress)
 }
