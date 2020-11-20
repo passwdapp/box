@@ -40,6 +40,7 @@ func InitHTTP() {
 		SigningKey:    []byte(config.GetConfig().JWTSecret),
 		SigningMethod: "HS512",
 	}))
+	protectedGroup.Use(middleware.UsernameMiddleware)
 
 	app.Listen(conf.ListenAddress)
 }
