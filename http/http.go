@@ -37,7 +37,8 @@ func InitHTTP() {
 
 	protectedGroup := v1Group.Group("/protected")
 	protectedGroup.Use(jwtware.New(jwtware.Config{
-		SigningKey: []byte(config.GetConfig().JWTSecret),
+		SigningKey:    []byte(config.GetConfig().JWTSecret),
+		SigningMethod: "HS512",
 	}))
 
 	app.Listen(conf.ListenAddress)
