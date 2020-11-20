@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/passwdapp/box/config"
-	"github.com/passwdapp/box/http/handlers"
+	"github.com/passwdapp/box/http/handlers/users"
 	"github.com/passwdapp/box/http/middleware"
 )
 
@@ -31,9 +31,9 @@ func InitHTTP() {
 	v1Group := app.Group("/v1")
 
 	usersGroup := v1Group.Group("/users")
-	usersGroup.Post("/signup", handlers.SignUpHandler)
-	usersGroup.Post("/signin", handlers.SignInHandler)
-	usersGroup.Post("/refresh", handlers.RefreshHandler)
+	usersGroup.Post("/signup", users.SignUpHandler)
+	usersGroup.Post("/signin", users.SignInHandler)
+	usersGroup.Post("/refresh", users.RefreshHandler)
 
 	protectedGroup := v1Group.Group("/protected")
 	protectedGroup.Use(jwtware.New(jwtware.Config{
