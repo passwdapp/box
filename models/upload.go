@@ -8,3 +8,8 @@ type Upload struct {
 	Nonce    string `json:"nonce" gorm:"uniqueIndex"`
 	Username string `json:"username" gorm:"not null"`
 }
+
+// NonceResponse is the result for a nonce GET request
+type NonceResponse struct {
+	Nonce string `json:"nonce"`
+}

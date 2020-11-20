@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/passwdapp/box/config"
+	"github.com/passwdapp/box/http/handlers/uploads"
 	"github.com/passwdapp/box/http/handlers/users"
 	"github.com/passwdapp/box/http/middleware"
 )
@@ -41,6 +42,9 @@ func InitHTTP() {
 		SigningMethod: "HS512",
 	}))
 	protectedGroup.Use(middleware.UsernameMiddleware)
+
+	uploadsGroup := protectedGroup.Group("/uploads")
+	uploadsGroup.Get("/nonce", uploads.NonceHandler)
 
 	app.Listen(conf.ListenAddress)
 }
