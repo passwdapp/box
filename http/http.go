@@ -45,6 +45,7 @@ func InitHTTP() {
 
 	uploadsGroup := protectedGroup.Group("/uploads")
 	uploadsGroup.Get("/nonce", uploads.NonceHandler)
+	uploadsGroup.Post("/new", uploads.UploadHandler)
 
 	app.Listen(conf.ListenAddress)
 }
