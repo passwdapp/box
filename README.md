@@ -1,9 +1,7 @@
 <h1 align="center">Passwd Box</h1>
 <p align="center">The sync 🔁 server for passwd</p>
 
----
-
-# Building
+## Building
 
 ### Requirements
 
