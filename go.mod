@@ -6,6 +6,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/form3tech-oss/jwt-go v3.2.2+incompatible
 	github.com/gofiber/fiber/v2 v2.1.1
+	github.com/gofiber/helmet/v2 v2.0.1
 	github.com/gofiber/jwt/v2 v2.1.0
 	github.com/joho/godotenv v1.3.0
 	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2

@@ -7,6 +7,8 @@ github.com/form3tech-oss/jwt-go v3.2.2+incompatible/go.mod h1:pbq4aXjuKjdthFRnoD
 github.com/gofiber/fiber/v2 v2.1.0/go.mod h1:aG+lMkwy3LyVit4CnmYUbUdgjpc3UYOltvlJZ78rgQ0=
 github.com/gofiber/fiber/v2 v2.1.1 h1:2AAL5XUN1kXw8tt6p2xbZHZ9SLfSjl7pSgnIRGUkHjU=
 github.com/gofiber/fiber/v2 v2.1.1/go.mod h1:tpaJo8bDmDBffw1es3SugTtc6l7oC9EuVaAPe2vrNvE=
+github.com/gofiber/helmet/v2 v2.0.1 h1:vk2E2A/MMMkTEVvtjWW6krfqIYRxdQQHltK1oW/s8ds=
+github.com/gofiber/helmet/v2 v2.0.1/go.mod h1:the7nv+Z6MlnQQGbuZJdW5w8oE8EPkrSqeJAKwqp7TA=
 github.com/gofiber/jwt/v2 v2.1.0 h1:eTahBQ8vO73fcXjpQjv/xiKZqMjvDtw5QmsvdgWQg6w=
 github.com/gofiber/jwt/v2 v2.1.0/go.mod h1:sf3l8cbwW93qL0kM9jcX9QTc8VIJgXCO1RWquBJUqTg=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=

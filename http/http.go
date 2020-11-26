@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/helmet/v2"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/passwdapp/box/config"
 	"github.com/passwdapp/box/http/handlers"
@@ -27,6 +28,7 @@ func InitHTTP() {
 	secretKeyMiddleware := middleware.SecretKeyMiddleware{}
 	secretKeyMiddleware.InitMiddleware(conf)
 
+	app.Use(helmet.New())
 	app.Use(recover.New())
 	app.Use(secretKeyMiddleware.Handler)
 	app.Use(logger.New())
