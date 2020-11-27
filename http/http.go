@@ -25,13 +25,14 @@ func InitHTTP() {
 		BodyLimit:    256 * 1024, // 256 kb
 	})
 
+	app.Use(logger.New())
+
 	secretKeyMiddleware := middleware.SecretKeyMiddleware{}
 	secretKeyMiddleware.InitMiddleware(conf)
 
 	app.Use(helmet.New())
 	app.Use(recover.New())
 	app.Use(secretKeyMiddleware.Handler)
-	app.Use(logger.New())
 
 	v1Group := app.Group("/v1")
 	v1Group.Get("/ping", handlers.PingHandler)
