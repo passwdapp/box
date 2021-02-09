@@ -64,8 +64,6 @@ func VerifyRefreshToken(refreshToken string) (valid bool, username string, err e
 	var token models.RefreshToken
 	tx := database.GetDBConnection().Model(&models.RefreshToken{}).Where("token = ?", refreshToken).First(&token)
 
-	// TODO: verify the issue time
-
 	if tx.Error != nil || token.Username == "" {
 		return false, "", tx.Error
 	}
