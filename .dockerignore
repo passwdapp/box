@@ -1,0 +1,16 @@
+# Environment files
+**/*.env*
+!.env.sample
+
+# Compiled binaries
+bin/
+
+# Application Data
+data/
+
+# Git
+.git/
+
+# Dockerfile itself
+.dockerignore
+Dockerfile
