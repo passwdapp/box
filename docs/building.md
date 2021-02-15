@@ -3,7 +3,7 @@
 ### Requirements
 
 - [Golang](https://golang.org) installed on your system
-- A C compiler (for cgo)
+- A C compiler (for cgo, docker images compiled with gcc and musl libc)
 
 ### Steps to build
 
