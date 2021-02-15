@@ -4,21 +4,20 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/passwdapp/box/config"
 	"github.com/passwdapp/box/database"
 	"github.com/passwdapp/box/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // SignUpHandler is the handler used for signing up on the box
-func SignUpHandler(ctx *fiber.Ctx) error {
+func (h *Handler) SignUpHandler(ctx *fiber.Ctx) error {
 	var currentUsers int64
 	tx := database.GetDBConnection().Model(&models.User{}).Count(&currentUsers)
 	if tx.Error != nil {
 		return ctx.SendStatus(500)
 	}
 
-	maxUsers := config.GetConfig().MaxUsers
+	maxUsers := h.Config.MaxUsers
 	if maxUsers <= currentUsers {
 		return ctx.SendStatus(402)
 	}

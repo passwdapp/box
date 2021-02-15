@@ -13,12 +13,14 @@ func main() {
 	useDotenv := flag.Bool("use-dotenv", true, "Use dotenv instead of environment variables")
 	flag.Parse()
 
+	cfg := config.Config{}
+
 	log.Println("Initializing passwd server")
-	config.InitConfig(*useDotenv)
+	cfg.InitConfig(*useDotenv)
 
 	log.Println("Connecting to the database")
-	database.Connect(config.GetConfig().DatabaseFile)
+	database.Connect(cfg.DatabaseFile)
 
 	log.Println("Initializing the HTTP server")
-	http.InitHTTP()
+	http.InitHTTP(&cfg)
 }

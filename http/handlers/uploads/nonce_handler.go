@@ -10,7 +10,7 @@ import (
 )
 
 // NonceHandler gives the latest upload nonce
-func NonceHandler(ctx *fiber.Ctx) error {
+func (h *Handler) NonceHandler(ctx *fiber.Ctx) error {
 	username := ctx.Locals("username").(string)
 
 	var upload models.Upload

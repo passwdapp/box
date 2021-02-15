@@ -79,23 +79,3 @@ func (c *Config) GetFromEnv() {
 
 // Version is the box version
 const Version = "1.0"
-
-var config *Config
-
-// GetConfig returns the configuration data.
-func GetConfig() *Config {
-	return config
-}
-
-// InitConfig initializes the configuration data
-func InitConfig(dotenv bool) {
-	conf := &Config{}
-	conf.InitConfig(dotenv)
-
-	config = conf
-}
-
-// SetConfig sets configuration data.
-func SetConfig(conf *Config) {
-	config = conf
-}

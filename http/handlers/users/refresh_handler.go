@@ -8,7 +8,7 @@ import (
 )
 
 // RefreshHandler is used to refresh the access tokens
-func RefreshHandler(ctx *fiber.Ctx) error {
+func (h *Handler) RefreshHandler(ctx *fiber.Ctx) error {
 	body := new(models.RefreshBody)
 
 	if err := ctx.BodyParser(body); err != nil {
@@ -34,7 +34,7 @@ func RefreshHandler(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(401)
 	}
 
-	refreshedAccessToken, err := utils.GenerateJWT(user)
+	refreshedAccessToken, err := utils.GenerateJWT(user, h.Config.JWTSecret)
 	if err != nil {
 		return err
 	}

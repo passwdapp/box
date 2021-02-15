@@ -9,7 +9,7 @@ import (
 )
 
 // SignInHandler is the handler used to sign into box
-func SignInHandler(ctx *fiber.Ctx) error {
+func (h *Handler) SignInHandler(ctx *fiber.Ctx) error {
 	body := new(models.SignInBody)
 
 	if err := ctx.BodyParser(body); err != nil {
@@ -32,7 +32,7 @@ func SignInHandler(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(401)
 	}
 
-	accessToken, refreshToken, err := utils.GenerateLoginTokens(user)
+	accessToken, refreshToken, err := utils.GenerateLoginTokens(user, h.Config.JWTSecret)
 	if err != nil {
 		return ctx.SendStatus(500)
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 // GetHandler is a handler used to get the DB file
-func GetHandler(ctx *fiber.Ctx) error {
+func (h *Handler) GetHandler(ctx *fiber.Ctx) error {
 	username := ctx.Locals("username").(string)
 
 	return ctx.SendFile(fmt.Sprintf("./data/uploads/%s", username))

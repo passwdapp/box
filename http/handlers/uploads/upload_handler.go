@@ -12,7 +12,7 @@ import (
 )
 
 // UploadHandler handles the upload of the DB and then returns a nonce
-func UploadHandler(ctx *fiber.Ctx) error {
+func (h *Handler) UploadHandler(ctx *fiber.Ctx) error {
 	username := ctx.Locals("username").(string)
 
 	file, err := ctx.FormFile("db")

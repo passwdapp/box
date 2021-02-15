@@ -16,9 +16,7 @@ import (
 )
 
 // InitHTTP initializes the HTTP server
-func InitHTTP() {
-	conf := config.GetConfig()
-
+func InitHTTP(cfg *config.Config) {
 	app := fiber.New(fiber.Config{
 		ServerHeader: fmt.Sprintf("passwd_box/fiber/%s", config.Version),
 		Prefork:      false,
@@ -28,7 +26,7 @@ func InitHTTP() {
 	app.Use(logger.New())
 
 	secretKeyMiddleware := middleware.SecretKeyMiddleware{}
-	secretKeyMiddleware.InitMiddleware(conf)
+	secretKeyMiddleware.InitMiddleware(cfg)
 
 	app.Use(helmet.New())
 	app.Use(recover.New())
@@ -38,13 +36,17 @@ func InitHTTP() {
 	v1Group.Get("/ping", handlers.PingHandler)
 
 	usersGroup := v1Group.Group("/users")
-	usersGroup.Post("/signup", users.SignUpHandler)
-	usersGroup.Post("/signin", users.SignInHandler)
-	usersGroup.Post("/refresh", users.RefreshHandler)
+
+	userHandlers := users.Handler{}
+	userHandlers.Init(cfg)
+
+	usersGroup.Post("/signup", userHandlers.SignUpHandler)
+	usersGroup.Post("/signin", userHandlers.SignInHandler)
+	usersGroup.Post("/refresh", userHandlers.RefreshHandler)
 
 	protectedGroup := v1Group.Group("/protected")
 	protectedGroup.Use(jwtware.New(jwtware.Config{
-		SigningKey:    []byte(config.GetConfig().JWTSecret),
+		SigningKey:    []byte(cfg.JWTSecret),
 		SigningMethod: "HS512",
 	}))
 	protectedGroup.Use(middleware.UsernameMiddleware)
@@ -52,9 +54,13 @@ func InitHTTP() {
 	protectedGroup.Get("/ping", handlers.PingHandler)
 
 	uploadsGroup := protectedGroup.Group("/uploads")
-	uploadsGroup.Get("/nonce", uploads.NonceHandler)
-	uploadsGroup.Post("/new", uploads.UploadHandler)
-	uploadsGroup.Get("/get", uploads.GetHandler)
 
-	app.Listen(conf.ListenAddress)
+	uploadsHandlers := uploads.Handler{}
+	uploadsHandlers.Init(cfg)
+
+	uploadsGroup.Get("/nonce", uploadsHandlers.NonceHandler)
+	uploadsGroup.Post("/new", uploadsHandlers.UploadHandler)
+	uploadsGroup.Get("/get", uploadsHandlers.GetHandler)
+
+	app.Listen(cfg.ListenAddress)
 }

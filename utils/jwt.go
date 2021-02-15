@@ -5,19 +5,18 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/passwdapp/box/config"
 	"github.com/passwdapp/box/database"
 	"github.com/passwdapp/box/models"
 )
 
 // GenerateLoginTokens creates a JWT with 1 hour validity and a refresh token (which is synced with the DB)
-// Return (error, accessToken, )
-func GenerateLoginTokens(user models.User) (at, rt string, err error) {
+// Returns (access token, refresh token, error)
+func GenerateLoginTokens(user models.User, jwtSecret string) (at, rt string, err error) {
 	if user.Username == "" {
 		return "", "", errors.New("Empty username")
 	}
 
-	accessTokenSigned, err := GenerateJWT(user)
+	accessTokenSigned, err := GenerateJWT(user, jwtSecret)
 
 	if err != nil {
 		return "", "", err
@@ -42,9 +41,7 @@ func GenerateLoginTokens(user models.User) (at, rt string, err error) {
 }
 
 // GenerateJWT generates a JWT for the given user with 1hr validity
-func GenerateJWT(user models.User) (string, error) {
-	jwtSecret := config.GetConfig().JWTSecret
-
+func GenerateJWT(user models.User, jwtSecret string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["exp"] = time.Now().UTC().Add(time.Hour).Unix()
 	claims["username"] = user.Username
