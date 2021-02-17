@@ -7,7 +7,7 @@ RUN apk add build-base
 RUN mkdir /build
 ADD . /build
 WORKDIR /build
-RUN go build -o passwdbox cmd/passwdbox/main.go
+RUN go build -o passwdbox -ldflags "-s" cmd/passwdbox/main.go
 
 FROM base as FINAL
 RUN mkdir -pv /app/data/uploads

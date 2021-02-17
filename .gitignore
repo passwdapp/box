@@ -4,6 +4,8 @@
 
 # Compiled binaries
 bin/
+**/passwdbox
+**/passwdbox.exe
 
 # Application Data
 data/
