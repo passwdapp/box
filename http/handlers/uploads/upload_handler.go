@@ -3,7 +3,7 @@ package uploads
 import (
 	"errors"
 	"fmt"
-	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/passwdapp/box/database"
@@ -14,6 +14,8 @@ import (
 // UploadHandler handles the upload of the DB and then returns a nonce
 func (h *Handler) UploadHandler(ctx *fiber.Ctx) error {
 	username := ctx.Locals("username").(string)
+
+	uploadTimestamp := ctx.Query("ts", fmt.Sprintf("%d", time.Now().Unix()))
 
 	file, err := ctx.FormFile("db")
 	if err != nil {
@@ -29,7 +31,7 @@ func (h *Handler) UploadHandler(ctx *fiber.Ctx) error {
 	tx := database.GetDBConnection().Model(&models.Upload{}).Where("username = ?", username).First(&upload)
 	if tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-			nonce := "0"
+			nonce := uploadTimestamp
 
 			tx = database.GetDBConnection().Create(&models.Upload{
 				Username: username,
@@ -47,12 +49,7 @@ func (h *Handler) UploadHandler(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(500)
 	}
 
-	oldNonce, err := strconv.Atoi(upload.Nonce)
-	if err != nil {
-		upload.Nonce = "0"
-	}
-
-	upload.Nonce = fmt.Sprintf("%d", oldNonce+1)
+	upload.Nonce = uploadTimestamp
 
 	tx = database.GetDBConnection().Save(&upload)
 	if tx.Error != nil {
