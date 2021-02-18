@@ -62,5 +62,5 @@ func InitHTTP(cfg *config.Config) {
 	uploadsGroup.Post("/new", uploadsHandlers.UploadHandler)
 	uploadsGroup.Get("/get", uploadsHandlers.GetHandler)
 
-	panic(app.Listen(cfg.ListenAddress))
+	app.Listen(cfg.ListenAddress)
 }
