@@ -3,11 +3,11 @@ package uploads
 import (
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/passwdapp/box/database"
 	"github.com/passwdapp/box/models"
-	"github.com/passwdapp/box/utils"
 	"gorm.io/gorm"
 )
 
@@ -29,11 +29,7 @@ func (h *Handler) UploadHandler(ctx *fiber.Ctx) error {
 	tx := database.GetDBConnection().Model(&models.Upload{}).Where("username = ?", username).First(&upload)
 	if tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-			nonce, err := utils.GenerateRandomString(24)
-
-			if err != nil {
-				return ctx.SendStatus(500)
-			}
+			nonce := "0"
 
 			tx = database.GetDBConnection().Create(&models.Upload{
 				Username: username,
@@ -51,10 +47,12 @@ func (h *Handler) UploadHandler(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(500)
 	}
 
-	upload.Nonce, err = utils.GenerateRandomString(24)
+	oldNonce, err := strconv.Atoi(upload.Nonce)
 	if err != nil {
-		ctx.SendStatus(500)
+		upload.Nonce = "0"
 	}
+
+	upload.Nonce = fmt.Sprintf("%d", oldNonce+1)
 
 	tx = database.GetDBConnection().Save(&upload)
 	if tx.Error != nil {
